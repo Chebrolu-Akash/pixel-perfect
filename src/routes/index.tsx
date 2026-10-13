@@ -19,7 +19,10 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const featured = categories.map((c) => toolsIn(c.name)[0]).filter(Boolean).slice(0, 8);
+const featured = categories
+  .map((c) => toolsIn(c.name)[0])
+  .filter((t): t is NonNullable<typeof t> => !!t)
+  .slice(0, 8);
 
 function Index() {
   const [q, setQ] = useState("");

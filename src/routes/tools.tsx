@@ -6,7 +6,7 @@ import { ToolCard } from "@/components/site/ToolCard";
 import { categories, shortName, tools } from "@/lib/tools";
 
 export const Route = createFileRoute("/tools")({
-  validateSearch: (s: Record<string, unknown>) => ({ q: typeof s.q === "string" ? s.q : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ q: typeof s["q"] === "string" ? (s["q"] as string) : undefined }),
   head: () => ({
     meta: [
       { title: "All AI Tools — Search & Filter | TryAITools" },
