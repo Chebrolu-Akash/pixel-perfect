@@ -14,11 +14,12 @@ function ToolLogo({ tool }: { tool: Tool }) {
   );
 }
 
-export function CategoryBrowser() {
+export function CategoryBrowser({ heading = "h1" }: { heading?: "h1" | "h2" }) {
+  const Heading = heading;
   return (
     <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6 sm:pt-14">
       <header>
-        <h1 className="text-4xl font-bold leading-tight sm:text-5xl">Browse all AI tools</h1>
+        <Heading className="text-4xl font-bold leading-tight sm:text-5xl">Browse all AI tools</Heading>
         <p className="mt-3 text-sm text-muted-foreground sm:text-base">{tools.length.toLocaleString()} curated tools across {categories.length} categories.</p>
         <nav aria-label="Jump to category" className="mt-7 flex flex-wrap gap-2">
           {categories.map((category) => (
