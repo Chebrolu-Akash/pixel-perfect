@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Page } from "@/components/site/Layout";
 import { CategoryBrowser } from "@/components/site/CategoryBrowser";
+import { Hero } from "@/components/site/Hero";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,6 +14,11 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => <Page><CategoryBrowser /></Page>,
+  component: () => (
+    <Page>
+      <Hero />
+      <CategoryBrowser heading="h2" />
+    </Page>
+  ),
 });
 
