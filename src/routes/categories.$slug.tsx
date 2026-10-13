@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Page } from "@/components/site/Layout";
 import { ToolCard } from "@/components/site/ToolCard";
 import { categoryBySlug, toolsIn } from "@/lib/tools";
 
 export const Route = createFileRoute("/categories/$slug")({
+  validateSearch: (search: Record<string, unknown>): { sub?: string } =>
+    typeof search.sub === "string" ? { sub: search.sub } : {},
   loader: ({ params }) => {
     const category = categoryBySlug(params.slug);
     if (!category) throw notFound();
@@ -36,7 +38,9 @@ export const Route = createFileRoute("/categories/$slug")({
 
 function CategoryPage() {
   const { category } = Route.useLoaderData();
-  const [sub, setSub] = useState("");
+  const { sub: selected } = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const sub = selected && category.subcategories.includes(selected) ? selected : "";
   const all = toolsIn(category.name);
   const list = sub ? all.filter((t) => t.subcategory === sub) : all;
   return (
@@ -51,15 +55,17 @@ function CategoryPage() {
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
         <div className="flex flex-wrap gap-2">
           {["", ...category.subcategories].map((s) => (
-            <button
+            <Button
               key={s || "all"}
-              onClick={() => setSub(s)}
+              variant="outline"
+              aria-pressed={sub === s}
+              onClick={() => navigate({ search: { sub: s || undefined } })}
               className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
                 sub === s ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40"
               }`}
             >
               {s ? s.replace(/^AI /, "") : "All"}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
