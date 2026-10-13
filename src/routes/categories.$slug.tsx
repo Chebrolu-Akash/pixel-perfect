@@ -5,8 +5,8 @@ import { ToolCard } from "@/components/site/ToolCard";
 import { categoryBySlug, toolsIn } from "@/lib/tools";
 
 export const Route = createFileRoute("/categories/$slug")({
-  validateSearch: (search: Record<string, unknown>): { sub?: string } =>
-    typeof search.sub === "string" ? { sub: search.sub } : {},
+  validateSearch: (search: Record<string, unknown>): { sub?: string | undefined } =>
+    typeof search["sub"] === "string" ? { sub: search["sub"] } : {},
   loader: ({ params }) => {
     const category = categoryBySlug(params.slug);
     if (!category) throw notFound();
